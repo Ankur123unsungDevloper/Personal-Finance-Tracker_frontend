@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^6.19.5",
     "@hono/clerk-auth": "^2.0.0",
     "@hono/zod-validator": "^0.5.0",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -22,6 +23,7 @@
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-use": "^17.6.0",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.20"
   },
