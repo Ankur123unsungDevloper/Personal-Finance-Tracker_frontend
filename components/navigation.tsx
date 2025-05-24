@@ -61,11 +61,21 @@ export const Navigation = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="px-2">
-          <nav></nav>
+          <nav className="flex flex-col gap-y-2 pt-6">
+            {routes.map((route) => (
+              <Button
+                key={route.href}
+                variant={route.href === pathname ? "secondary" : "ghost"}
+                onClick={() => onClick(route.href)}
+              >
+                {route.label}
+              </Button>
+            ))}
+          </nav>
         </SheetContent>
       </Sheet>
-    )
-  }
+    );
+  };
 
   return (
     <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto">
