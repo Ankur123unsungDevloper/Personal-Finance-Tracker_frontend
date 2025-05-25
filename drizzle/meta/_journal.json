@@ -1,12 +1,19 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1748119242258,
-      "tag": "0000_watery_kree",
+      "version": "7",
+      "when": 1748166291025,
+      "tag": "0000_abandoned_doomsday",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748167249870,
+      "tag": "0001_bored_mentor",
       "breakpoints": true
     }
   ]
