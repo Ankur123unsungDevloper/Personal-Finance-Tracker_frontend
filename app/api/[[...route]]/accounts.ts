@@ -1,5 +1,6 @@
 import { Hono } from "hono";
-import { HTTPException } from "hono/http-exception";
+import { eq } from "drizzle-orm";
+import {zValidator} from "@hono/zod-validator"
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
 import { db } from "@/db/drizzle";
@@ -14,17 +15,26 @@ const app = new Hono()
       const auth = getAuth(c);
 
       if (!auth?.userId) {
-        throw new HTTPException(401, {
-          res: c.json({ error: "Unauthorized" }, 401),
-        });
+        return c.json({error: "Unauthorized"}, 401);
       }
-    const data = await db
-      .select({
-        id: accounts.id,
-        name: accounts.name,
-      })
-      .from(accounts);
-  return c.json({ data });
-});
+      const data = await db
+        .select({
+          id: accounts.id,
+          name: accounts.name,
+        })
+        .from(accounts);
+      return c.json({ data });
+  })
+  .post(
+    "/",
+    clerkMiddleware(),
+    zValidator,
+    async (c) => {
+      const auth = getAuth(c);
 
+      if (!auth?.userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+      return c.json({});
+  })
 export default app;
