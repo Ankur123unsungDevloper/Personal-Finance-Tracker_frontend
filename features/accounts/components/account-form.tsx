@@ -53,11 +53,42 @@ export const AccountForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4 pt-4"
+        className="space-y-4 pt-4 m-4"
       >
         <FormField
           name="name"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input
+                  disabled={disabled}
+                  placeholder="e.g. Cash, Bank, Credit Card"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
+        <Button
+          className="w-full"
+          disabled={disabled}
+        >
+          {id ? "Save changes" : "Create account"}
+        </Button>
+        <Button
+          type="button"
+          disabled={disabled}
+          onClick={handleDelete}
+          className="w-full"
+          variant="outline"
+        >
+          <Trash className="size-4 mr-2" />
+          Delete account
+        </Button>
       </form>
     </Form>
   )
