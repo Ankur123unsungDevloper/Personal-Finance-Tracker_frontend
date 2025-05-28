@@ -1,5 +1,11 @@
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { z } from "zod";
 
+import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+import { AccountForm } from "@/features/accounts/components/account-form";
+import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+
+import { insertAccountSchema } from "@/db/schema";
 import {
   Sheet,
   SheetContent,
@@ -7,11 +13,26 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { AccountForm } from "@/features/accounts/components/account-form";
 
+
+const formSchema = insertAccountSchema.pick({
+  name: true,
+});
+
+type FormValues = z.input<typeof formSchema>;
 
 export const NewAccountSheet = () => {
   const { isOpen, onClose } = useNewAccount();
+
+  const mutation = useCreateAccount();
+
+  const onSubmit = (values: FormValues) => {
+    mutation.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      }
+    });
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -25,8 +46,11 @@ export const NewAccountSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <AccountForm
-          onSubmit={() => { }}
-          disabled={false}
+          onSubmit={onSubmit}
+          disabled={mutation.isPending}
+          defaultValues={{
+            name: "",
+          }}
         />
       </SheetContent>
     </Sheet>

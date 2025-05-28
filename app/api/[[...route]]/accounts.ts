@@ -8,7 +8,9 @@ import { db } from "@/db/drizzle";
 import { accounts, insertAccountSchema } from "@/db/schema";
 
 
-const app = new Hono()
+const app = new Hono();
+
+const accountsRoute = app
   .get(
     "/",
     clerkMiddleware(),
@@ -48,4 +50,6 @@ const app = new Hono()
       }).returning();
       return c.json({ data });
   })
-export default app;
+
+export type AccountsRouteType = typeof accountsRoute;
+export default accountsRoute;

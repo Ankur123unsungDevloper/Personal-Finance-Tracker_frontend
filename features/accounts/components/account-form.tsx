@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -79,16 +80,18 @@ export const AccountForm = ({
         >
           {id ? "Save changes" : "Create account"}
         </Button>
-        <Button
-          type="button"
-          disabled={disabled}
-          onClick={handleDelete}
-          className="w-full"
-          variant="outline"
-        >
-          <Trash className="size-4 mr-2" />
-          Delete account
-        </Button>
+        {!!id && (
+          <Button
+            type="button"
+            disabled={disabled}
+            onClick={handleDelete}
+            className="w-full"
+            variant="outline"
+          >
+            <Trash className="size-4 mr-2" />
+            Delete account
+          </Button>
+        )}
       </form>
     </Form>
   )

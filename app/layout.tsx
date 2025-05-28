@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 
+import { Toaster } from "sonner";
 import { QueryProviders } from "@/providers/query-provider";
 import { SheetProvider } from "@/providers/sheet-provider";
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <body>
           <QueryProviders>
             <SheetProvider />
+            <Toaster />
             {children}
           </QueryProviders>
         </body>
