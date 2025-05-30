@@ -11,10 +11,10 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { columns, Payment } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "@/components/data-table";
 
-const data: Payment[]=[
+const data =[
   {
     id: "728ed52f",
     amount: 100,
