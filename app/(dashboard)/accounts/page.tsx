@@ -4,6 +4,7 @@ import { Loader2, Plus } from "lucide-react";
 
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bluk-delete";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,15 +20,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
-  const accountQuery = useGetAccounts();
-  const accounts = accountQuery.data || [];
+  const deleteAccounts = useBulkDeleteAccounts
+  const accountsQuery = useGetAccounts();
+  const accounts = accountsQuery.data || [];
 
-  if (accountQuery.isLoading) {
+  const isDisabled = accountsQuery.isLoading || deleteAccounts.isPending;
+
+  if (accountsQuery.isLoading) {
     return (
       <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
         <Card className="border-none drop-shadow-sm">
           <CardHeader>
-            <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-8 w-48" />
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full flex items-center justify-center">
