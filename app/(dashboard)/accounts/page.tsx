@@ -49,6 +49,7 @@ const AccountsPage = () => {
             filterKey="email"
             columns={columns}
             data={data}
+            onDelete={() => {}}
           />
         </CardContent>
       </Card>
