@@ -8,7 +8,7 @@ import { client } from "@/lib/hono";;
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export type ResponseType = InferRequestType<typeof client.api.accounts.$get, 200>["data"][0];
+export type ResponseType = InferRequestType<typeof client.api.accounts.$get>;
 
 export const columns: ColumnDef<Payment>[] = [
   {

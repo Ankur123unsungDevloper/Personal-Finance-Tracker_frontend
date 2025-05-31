@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Loader2, Plus } from "lucide-react";
@@ -20,7 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
-  const deleteAccounts = useBulkDeleteAccounts
+  const deleteAccounts = useBulkDeleteAccounts();
   const accountsQuery = useGetAccounts();
   const accounts = accountsQuery.data || [];
 
