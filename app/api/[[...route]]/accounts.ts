@@ -26,7 +26,7 @@ const app = new Hono()
           name: accounts.name,
         })
         .from(accounts)
-        .where(eq(accounts.id, auth.userId));
+        .where(eq(accounts.userId, auth.userId));
       return c.json({ data });
     })
   .post(

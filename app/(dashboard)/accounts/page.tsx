@@ -8,14 +8,16 @@ import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bluk-delete";
 
 import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/data-table";
+
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
+
 import { columns } from "./columns";
-import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 
 
