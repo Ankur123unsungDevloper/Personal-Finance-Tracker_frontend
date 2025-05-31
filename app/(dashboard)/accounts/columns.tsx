@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 export type ResponseType = InferRequestType<typeof client.api.accounts.$get>;
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<ResponseType>[] = [
   {
     id: "select",
     header: ({ table }) => (
