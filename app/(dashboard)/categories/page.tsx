@@ -20,7 +20,7 @@ import { columns } from "./columns";
 import { Skeleton } from "@/components/ui/skeleton";
 
 
-const AccountsPage = () => {
+const CategoriesPage = () => {
   const newAccount = useNewAccount();
   const deleteAccounts = useBulkDeleteAccounts();
   const accountsQuery = useGetAccounts();
@@ -50,7 +50,7 @@ const AccountsPage = () => {
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
           <CardTitle className="text-xl line-clamp-1">
-            Account page
+            Categories page
           </CardTitle>
           <Button onClick={newAccount.onOpen} size="sm">
             <Plus className="size-4 mr-2" />
@@ -74,4 +74,4 @@ const AccountsPage = () => {
   );
 };
 
-export default AccountsPage;
+export default CategoriesPage;
