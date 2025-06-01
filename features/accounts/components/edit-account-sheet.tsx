@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import { AccountForm } from "@/features/accounts/components/account-form";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useEditAccount } from "@/features/accounts/api/use-edit-account";
+import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
 
 import { insertAccountSchema } from "@/db/schema";
 import {
@@ -14,6 +16,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useConfirm } from "@/hooks/use-confirm";
 
 
 const formSchema = insertAccountSchema.pick({
@@ -25,15 +28,37 @@ type FormValues = z.input<typeof formSchema>;
 export const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
 
-  const mutation = useCreateAccount();
+  const [ConfirmationDialog, confirm] = useConfirm(
+    "Are you sure?",
+    "You are about to delete this transaction.",
+  )
 
   const accountQuery = useGetAccount(id);
+  const editMutation = useEditAccount(id);
+  const deleteMutation = useDeleteAccount(id);
+
+  const isPending = editMutation.isPending || deleteMutation.isPending;
+
+  const isLoading = accountQuery.isLoading;
+
   const onSubmit = (values: FormValues) => {
-    mutation.mutate(values, {
+    editMutation.mutate(values, {
       onSuccess: () => {
         onClose();
       }
     });
+  };
+
+  const onDelete = async () => {
+    const ok = await confirm();
+
+    if (ok) {
+      deleteMutation.mutate(undefined, {
+        onSuccess: () => {
+          onClose();
+        }
+      });
+    }
   };
 
   const defaultValues = accountQuery.data ? {
@@ -43,22 +68,35 @@ export const EditAccountSheet = () => {
   }
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="space-y-4">
-        <SheetHeader>
-          <SheetTitle>
-            New Account
-          </SheetTitle>
-          <SheetDescription>
-            Create a new account to track your transactions.
-          </SheetDescription>
-        </SheetHeader>
-        <AccountForm
-          onSubmit={onSubmit}
-          disabled={mutation.isPending}
-          defaultValues={defaultValues}
-        />
-      </SheetContent>
-    </Sheet>
+    <>
+      <ConfirmationDialog />
+      <Sheet open={isOpen} onOpenChange={onClose}>
+        <SheetContent className="space-y-4">
+          <SheetHeader>
+            <SheetTitle>
+              Edit Account
+            </SheetTitle>
+            <SheetDescription>
+              Edit the account details
+            </SheetDescription>
+          </SheetHeader>
+          {isLoading
+            ? (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader2 className="size-4 text-muted-foreground animate-spin" />
+              </div>
+            ) : (
+              <AccountForm
+                id={id}
+                onSubmit={onSubmit}
+                disabled={isPending}
+                defaultValues={defaultValues}
+                onDelete={onDelete}  
+              />
+            )
+          }
+        </SheetContent>
+      </Sheet>
+    </>
   );
 };
