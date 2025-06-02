@@ -7,7 +7,8 @@ import {
   eq,
   gte,
   inArray,
-  lte
+  lte,
+  sql
 } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { zValidator } from "@hono/zod-validator";
@@ -93,13 +94,19 @@ const app = new Hono()
       const [data] = await db
         .select({
           id: transactions.id,
-          name: transactions.name,
+          date: transactions.date,
+          categoryId: transactions.categoryId,
+          payee: transactions.payee,
+          amount: transactions.amount,
+          notes: transactions.notes,
+          accountId: transactions.accountId,
         })
         .from(transactions)
+        .innerJoin(accounts, eq(transactions.accountId, accounts.id))
         .where(
           and(
-            eq(transactions.userId, auth.userId),
             eq(transactions.id, id),
+            eq(accounts.id, auth.userId),
           ),
         );
       
@@ -113,8 +120,8 @@ const app = new Hono()
   .post(
     "/",
     clerkMiddleware(),
-    zValidator("json", inserTransactionSchema.pick({
-      name: true,
+    zValidator("json", inserTransactionSchema.omit({
+      id: true,
     })),
     async (c) => {
       const auth = getAuth(c);
@@ -126,7 +133,6 @@ const app = new Hono()
 
       const [data] = await db.insert(transactions).values({
         id: createId(),
-        userId: auth.userId,
         ...values,
       }).returning();
       return c.json({ data });
@@ -148,17 +154,25 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const transationsToDelete = db.$with("transactions_to_delete").as(
+        db.select({ id: transactions.id })
+          .from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(and(
+            inArray(transactions.id, values.ids),
+            eq(accounts.userId, auth.userId),
+          ))
+      );
+
       const data = await db
+        .with(transationsToDelete)
         .delete(transactions)
         .where(
-          and(
-            eq(transactions.userId, auth.userId),
-            inArray(transactions.id, values.ids),
-          )
-        )
+        inArray(transactions.id, sql`(select id from ${transationsToDelete})`)
+      )
         .returning({
-          id: transactions.id,
-        });
+        id: transactions.id,
+      })
       
       return c.json({ data });
     }
@@ -174,8 +188,8 @@ const app = new Hono()
     ),
     zValidator(
       "json",
-      inserTransactionSchema.pick({
-        name: true,
+      inserTransactionSchema.omit({
+        id: true,
       })
     ),
     async (c) => {
@@ -191,16 +205,24 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const transationsUpdate = db.$with("transactions_to_update").as(
+        db.select({ id: transactions.id })
+          .from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(and(
+            eq(transactions.id, id),
+            eq(accounts.userId, auth.userId),
+          ))
+      );
+
       const [data] = await db
+        .with(transationsUpdate)
         .update(transactions)
         .set(values)
         .where(
-          and(
-            eq(transactions.userId, auth.userId),
-            eq(transactions.id, id),
-          ),
-        )
-        .returning();
+        inArray(transactions.id, sql`(select id from ${transationsUpdate})`)
+      )
+      .returning();
       
       if (!data) {
         return c.json({ error: "Account not found" }, 404);
@@ -230,12 +252,22 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
+      const transationsToDelete = db.$with("transactions_to_delete").as(
+        db.select({ id: transactions.id }).from(transactions)
+          .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+          .where(and(
+            eq(transactions.id, id),
+            eq(accounts.userId, auth.userId),
+          ))
+      );
+
       const [data] = await db
+        .with(transationsToDelete)
         .delete(transactions)
         .where(
-          and(
-            eq(transactions.userId, auth.userId),
-            eq(transactions.id, id),
+          inArray(
+            transactions.id,
+            sql`(select id from ${transationsToDelete})`
           ),
         )
         .returning({
