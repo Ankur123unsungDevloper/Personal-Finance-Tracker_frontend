@@ -22,11 +22,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const CategoriesPage = () => {
   const newCategory = useNewCategory();
-  const deleteCategorys = useBulkDeleteCategories();
+  const deleteCategories = useBulkDeleteCategories();
   const categoriesQuery = useGetCategories();
   const categories = categoriesQuery.data || [];
 
-  const isDisabled = categoriesQuery.isLoading || deleteCategorys.isPending;
+  const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending;
 
   if (categoriesQuery.isLoading) {
     return (
@@ -64,7 +64,7 @@ const CategoriesPage = () => {
             data={categories}
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
-              deleteCategorys.mutate({ ids });
+              deleteCategories.mutate({ ids });
             }}
             disabled={isDisabled}
           />
