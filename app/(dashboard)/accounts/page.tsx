@@ -4,7 +4,7 @@ import { Loader2, Plus } from "lucide-react";
 
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
-import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bluk-delete";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bluk-delete-accounts";
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table";

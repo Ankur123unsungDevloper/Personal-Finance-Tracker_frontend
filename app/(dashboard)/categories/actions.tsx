@@ -6,8 +6,8 @@ import {
   Trash
 } from "lucide-react";
 
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
 
 import { useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@/components/ui/button";
@@ -31,8 +31,8 @@ export const Actions = ({
     "You are about to delete this transaction.",
   )
 
-  const deleteMutation = useDeleteAccount(id);
-  const { onOpen } = useOpenAccount();
+  const deleteMutation = useDeleteCategory(id);
+  const { onOpen } = useOpenCategory();
 
   const handleDelete = async () => {
     const ok = await confirm();
