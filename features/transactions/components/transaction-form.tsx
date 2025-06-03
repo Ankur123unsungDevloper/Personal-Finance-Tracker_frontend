@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { z } from "zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "@/components/ui/input";
 import { Select } from "@/components/select";
-import { Button } from "@/components/ui/button";
+import { AmountInput } from "@/components/amount-input";
 import { DatePicker } from "@/components/date-picker";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+
 import { inserTransactionSchema } from "@/db/schema";
+
+import { convertAmountToMiliunits } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -64,7 +68,13 @@ export const TransactionForm = ({
   })
 
   const handleSubmit = (values: FormValues) => {
-    // onSubmit(values);
+    const amount = parseFloat(values.amount);
+    const amountInMiliunits = convertAmountToMiliunits(amount);
+    
+    onSubmit({
+      ...values,
+      amount: amountInMiliunits,
+    });
   };
 
   const handleDelete = () => {
@@ -154,6 +164,26 @@ export const TransactionForm = ({
                   disabled={disabled}
                   placeholder="Select a payee"
                   {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        {/* Amount */}
+        <FormField
+          name="amount"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Amount
+              </FormLabel>
+              <FormControl>
+                <AmountInput
+                  {...field}
+                  disabled={disabled}
+                  placeholder="0.00"
                 />
               </FormControl>
             </FormItem>
