@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
 
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { AccountForm } from "@/features/accounts/components/account-form";
-import { useCreateAccount } from "@/features/accounts/api/use-create-account";
+import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
+import { TransactionForm } from "@/features/transactions/components/transaction-form";
+import { useCreateTransaction } from "@/features/transactions/api/use-create-transaction";
 
-import { insertAccountSchema } from "@/db/schema";
+import { inserTransactionSchema } from "@/db/schema";
 import {
   Sheet,
   SheetContent,
@@ -15,16 +15,16 @@ import {
 } from "@/components/ui/sheet";
 
 
-const formSchema = insertAccountSchema.pick({
-  name: true,
+const formSchema = inserTransactionSchema.omit({
+  id: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
 
-export const NewAccountSheet = () => {
-  const { isOpen, onClose } = useNewAccount();
+export const NewTransactionSheet = () => {
+  const { isOpen, onClose } = useNewTransaction();
 
-  const mutation = useCreateAccount();
+  const mutation = useCreateTransaction();
 
   const onSubmit = (values: FormValues) => {
     mutation.mutate(values, {
@@ -39,13 +39,13 @@ export const NewAccountSheet = () => {
       <SheetContent className="space-y-4">
         <SheetHeader>
           <SheetTitle>
-            New Account
+            New Transaction
           </SheetTitle>
           <SheetDescription>
-            Create a new account to track your account.s.
+            Create a new transaction to track your transaction.s.
           </SheetDescription>
         </SheetHeader>
-        <AccountForm
+        <TransactionForm
           onSubmit={onSubmit}
           disabled={mutation.isPending}
           defaultValues={{
