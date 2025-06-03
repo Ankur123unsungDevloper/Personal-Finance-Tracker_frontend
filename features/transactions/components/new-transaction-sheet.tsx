@@ -2,8 +2,8 @@
 import { z } from "zod";
 
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
-import { TransactionForm } from "@/features/transactions/components/transaction-form";
 import { useCreateTransaction } from "@/features/transactions/api/use-create-transaction";
+import { TransactionForm } from "@/features/transactions/components/transaction-form";
 
 import { inserTransactionSchema } from "@/db/schema";
 import {
@@ -45,13 +45,13 @@ export const NewTransactionSheet = () => {
             Create a new transaction to track your transaction.s.
           </SheetDescription>
         </SheetHeader>
-        <TransactionForm
+        {/* <TransactionForm
           onSubmit={onSubmit}
           disabled={mutation.isPending}
           defaultValues={{
             name: "",
           }}
-        />
+        /> */}
       </SheetContent>
     </Sheet>
   );

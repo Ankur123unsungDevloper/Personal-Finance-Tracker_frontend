@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { z } from "zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -6,18 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { insertAccountSchema } from "@/db/schema";
+import { inserTransactionSchema } from "@/db/schema";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 
-const formSchema = insertAccountSchema.pick({
-  name: true,
+const formSchema = inserTransactionSchema.omit({
+  id: true,
 });
 
 type FormValues = z.input<typeof formSchema>;
@@ -30,7 +30,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export const AccountForm = ({
+export const TransactionForm = ({
   id,
   defaultValues,
   onSubmit,
@@ -56,7 +56,7 @@ export const AccountForm = ({
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-4 pt-4 m-4"
       >
-        <FormField
+        {/* <FormField
           name="name"
           control={form.control}
           render={({ field }) => (
@@ -73,12 +73,12 @@ export const AccountForm = ({
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
         <Button
           className="w-full"
           disabled={disabled}
         >
-          {id ? "Save changes" : "Create account"}
+          {id ? "Save changes" : "Create transaction"}
         </Button>
         {!!id && (
           <Button
@@ -89,7 +89,7 @@ export const AccountForm = ({
             variant="outline"
           >
             <Trash className="size-4 mr-2" />
-            Delete account
+            Delete transaction
           </Button>
         )}
       </form>
