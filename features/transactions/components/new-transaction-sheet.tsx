@@ -11,7 +11,7 @@ import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 
-import { inserTransactionSchema } from "@/db/schema";
+import { insertTransactionSchema } from "@/db/schema";
 import { Loader2 } from "lucide-react";
 import {
   Sheet,
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 
 
-const formSchema = inserTransactionSchema.omit({
+const formSchema = insertTransactionSchema.omit({
   id: true,
 });
 

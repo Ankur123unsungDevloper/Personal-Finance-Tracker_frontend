@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { inserTransactionSchema } from "@/db/schema";
+import { insertTransactionSchema } from "@/db/schema";
 
 import { convertAmountToMiliunits } from "@/lib/utils";
 import {
@@ -32,7 +32,7 @@ const formSchema = z.object({
   notes: z.string().nullable().optional(),
 });
 
-const apiSchema = inserTransactionSchema.omit({
+const apiSchema = insertTransactionSchema.omit({
   id: true,
 });
 
