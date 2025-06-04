@@ -8,6 +8,7 @@ import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bluk-
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   Card,
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/card";
 
 import { columns } from "./columns";
-import { Skeleton } from "@/components/ui/skeleton";
 
 
 const TransactionsPage = () => {
