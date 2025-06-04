@@ -18,18 +18,18 @@ export const Select = ({
   onChange,
   disabled,
   onCreate,
-  options=[],
+  options = [],
   placeholder,
 }: Props) => {
   const onSelect = (
-    option: SingleValue<{label: string, value: string}>
+    option: SingleValue<{ label: string, value: string }>
   ) => {
     onChange(option?.value);
-  }
+  };
 
   const formattedValue = useMemo(() => {
     return options.find((option) => option.value === value);
-  }, [options, value])
+  }, [options, value]);
 
   return (
     <CreateableSelect

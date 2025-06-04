@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
 import { useCreateTransaction } from "@/features/transactions/api/use-create-transaction";
@@ -12,7 +13,6 @@ import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 
 import { insertTransactionSchema } from "@/db/schema";
-import { Loader2 } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -43,6 +43,7 @@ export const NewTransactionSheet = () => {
     value: category.id,
   }));
 
+  
   const accountQuery = useGetAccounts();
   const accountMutation = useCreateAccount();
   const onCreateAccount = (name: string) => accountMutation.mutate({
