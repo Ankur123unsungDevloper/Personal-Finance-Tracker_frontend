@@ -191,7 +191,7 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const transactionToDelete = db.$with("transactions_to_delete").as(
+      const transactionsToDelete = db.$with("transactions_to_delete").as(
         db.select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
@@ -202,10 +202,10 @@ const app = new Hono()
       );
 
       const data = await db
-        .with(transactionToDelete)
+        .with(transactionsToDelete)
         .delete(transactions)
         .where(
-          inArray(transactions.id, sql`(select id from ${transactionToDelete})`)
+          inArray(transactions.id, sql`(select id from ${transactionsToDelete})`)
         )
         .returning({
           id: transactions.id,
@@ -242,7 +242,7 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const transactionToUpdate = db.$with("transactions_to_update").as(
+      const transactionsToUpdate = db.$with("transactions_to_update").as(
         db.select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
@@ -253,11 +253,11 @@ const app = new Hono()
       );
 
       const [data] = await db
-        .with(transactionToUpdate)
+        .with(transactionsToUpdate)
         .update(transactions)
         .set(values)
         .where(
-        inArray(transactions.id, sql`(select id from ${transactionToUpdate})`)
+        inArray(transactions.id, sql`(select id from ${transactionsToUpdate})`)
       )
       .returning();
       
@@ -289,7 +289,7 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const transactionToDelete = db.$with("transactions_to_delete").as(
+      const transactionsToDelete = db.$with("transactions_to_delete").as(
         db.select({ id: transactions.id }).from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(and(
@@ -299,12 +299,12 @@ const app = new Hono()
       );
 
       const [data] = await db
-        .with(transactionToDelete)
+        .with(transactionsToDelete)
         .delete(transactions)
         .where(
           inArray(
             transactions.id,
-            sql`(select id from ${transactionToDelete})`
+            sql`(select id from ${transactionsToDelete})`
           ),
         )
         .returning({
