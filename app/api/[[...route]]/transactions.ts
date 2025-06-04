@@ -164,9 +164,9 @@ const app = new Hono()
       const data = await db
         .insert(transactions)
         .values(
-          values.map((values) => ({
+          values.map((value) => ({
             id: createId(),
-            ...values,
+            ...value,
           }))
         )
         .returning();
