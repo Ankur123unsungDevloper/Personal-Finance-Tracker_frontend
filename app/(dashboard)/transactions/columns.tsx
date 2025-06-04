@@ -57,46 +57,46 @@ export const columns: ColumnDef<ResponseType>[] = [
       )
     }
   },
-  // {
-  //   accessorKey: "category",
-  //   header: ({ column }) => {
-  //     <Button
-  //       variant="ghost"
-  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //     >
-  //       Category
-  //       <ArrowUpDown className="ml-2 h-4 w-4" />
-  //     </Button>
-  //   },
-  //   cell: ({ row }) => {
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Category
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    },
+    cell: ({ row }) => {
 
-  //     return (
-  //       <span>
-  //         {row.original.category}
-  //       </span>
-  //     )
-  //   }
-  // },
-  // {
-  //   accessorKey: "account",
-  //   header: ({ column }) => {
-  //     <Button
-  //       variant="ghost"
-  //       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //     >
-  //       Account
-  //       <ArrowUpDown className="ml-2 h-4 w-4" />
-  //     </Button>
-  //   },
-  //   cell: ({ row }) => {
+      return (
+        <span>
+          {row.original.category}
+        </span>
+      )
+    }
+  },
+  {
+    accessorKey: "account",
+    header: ({ column }) => {
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Account
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    },
+    cell: ({ row }) => {
 
-  //     return (
-  //       <span>
-  //         {row.original.account}
-  //       </span>
-  //     )
-  //   }
-  // },
+      return (
+        <span>
+          {row.original.account}
+        </span>
+      )
+    }
+  },
   {
     id: "actions",
     cell: ({ row }) => <Actions id={row.original.id} />

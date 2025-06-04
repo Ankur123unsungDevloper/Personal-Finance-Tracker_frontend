@@ -42,20 +42,24 @@ const app = new Hono()
       const defaultTo = new Date();
       const defaultFrom = subDays(defaultTo, 30);
 
-      const startDate = from ? parse(from, "yyyy-MM-dd", new Date()) : defaultFrom;
+      const startDate = from
+        ? parse(from, "yyyy-MM-dd", new Date())
+        : defaultFrom;
 
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+      const endDate = to
+        ? parse(to, "yyyy-MM-dd", new Date())
+        : defaultTo;
 
       const data = await db
         .select({
           id: transactions.id,
           date: transactions.date,
-          categories: categories.name,
+          category: categories.name,
           categoryId: transactions.categoryId,
           payee: transactions.payee,
           amount: transactions.amount,
           notes: transactions.notes,
-          accounts: accounts.name,
+          account: accounts.name,
           accountId: transactions.accountId,
         })
         .from(transactions)
@@ -106,7 +110,7 @@ const app = new Hono()
         .where(
           and(
             eq(transactions.id, id),
-            eq(accounts.id, auth.userId),
+            eq(accounts.userId, auth.userId),
           ),
         );
       
@@ -135,6 +139,7 @@ const app = new Hono()
         id: createId(),
         ...values,
       }).returning();
+
       return c.json({ data });
   })
   .post(
@@ -193,7 +198,7 @@ const app = new Hono()
           .where(and(
             inArray(transactions.id, values.ids),
             eq(accounts.userId, auth.userId),
-          ))
+          )),
       );
 
       const data = await db
