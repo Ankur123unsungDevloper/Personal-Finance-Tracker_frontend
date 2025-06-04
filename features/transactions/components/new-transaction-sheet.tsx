@@ -12,6 +12,7 @@ import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 
 import { inserTransactionSchema } from "@/db/schema";
+import { Loader2 } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -19,7 +20,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Loader2 } from "lucide-react";
 
 
 const formSchema = inserTransactionSchema.omit({
@@ -73,7 +73,7 @@ export const NewTransactionSheet = () => {
             New Transaction
           </SheetTitle>
           <SheetDescription>
-            Create a new transaction to track your transaction.s.
+            Add a new Transaction.
           </SheetDescription>
         </SheetHeader>
         {isLoading

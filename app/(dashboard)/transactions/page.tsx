@@ -59,7 +59,7 @@ const TransactionsPage = () => {
         </CardHeader>
         <CardContent>
           <DataTable
-            filterKey="name"
+            filterKey="date"
             columns={columns}
             data={transactions}
             onDelete={(row) => {
