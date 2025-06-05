@@ -14,7 +14,7 @@ import {
 
 type Props = {
   value?: Date;
-  onChange: SelectSingleEventHandler;
+  onChange?: SelectSingleEventHandler;
   disabled?: boolean;
 };
 
