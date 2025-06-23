@@ -54,9 +54,14 @@ export const NewTransactionSheet = () => {
     value: account.id,
   }));
 
-  const isPending = createMutation.isPending || categoryMutation.isPending || accountMutation.isPending;
+  const isPending =
+    createMutation.isPending ||
+    categoryMutation.isPending ||
+    accountMutation.isPending;
 
-  const isLoading = categoryQuery.isLoading || accountQuery.isLoading;
+  const isLoading =
+    categoryQuery.isLoading ||
+    accountQuery.isLoading;
 
   const onSubmit = (values: FormValues) => {
     createMutation.mutate(values, {
