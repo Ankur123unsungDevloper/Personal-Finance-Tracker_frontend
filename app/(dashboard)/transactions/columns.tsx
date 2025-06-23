@@ -69,7 +69,6 @@ export const columns: ColumnDef<ResponseType>[] = [
       </Button>
     },
     cell: ({ row }) => {
-
       return (
         <span>
           {row.original.category}
