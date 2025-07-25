@@ -12,7 +12,7 @@ export default function AuthLayout({
           <h1 className="font-bold text-3xl text-[#2E2A47]">
             Welcome Back to our platform!
           </h1>
-          <p className="text-base text-[#7ECA0]">
+          <p className="text-base text-[#7E8CA0]">
             Log in to get back to your dashboard!
           </p>
         </div>

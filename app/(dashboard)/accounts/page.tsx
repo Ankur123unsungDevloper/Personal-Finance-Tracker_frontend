@@ -48,7 +48,7 @@ const AccountsPage = () => {
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm">
-        <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
+        <CardHeader className="!flex flex-col lg:flex-row items-center justify-between gap-y-2 px-6">
           <CardTitle className="text-xl line-clamp-1">
             Account page
           </CardTitle>
