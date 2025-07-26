@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
+import { format, parse } from "date-fns";
+
 import {
   Card,
   CardContent,
@@ -8,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { ImportTable } from "./import-table";
+import { convertAmountToMiliunits } from "@/lib/utils";
 
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
@@ -31,7 +35,7 @@ type Props = {
 export const ImportCard = ({
   data,
   onCancel,
-  onSubmit
+  onSubmit,
 }: Props) => {
   const [selectedColumns, setselectedColumns] = useState<SelectedColumnsState>({});
   
@@ -67,7 +71,7 @@ export const ImportCard = ({
       return column.split("_")[1];
     };
 
-    const mapped = {
+    const mappedData = {
       headers: headers.map((_header, index) => {
         const columnIndex = getColumnIndex(`column_${index}`);
         return selectedColumns[`column_${columnIndex}`] || null;
@@ -82,6 +86,25 @@ export const ImportCard = ({
           : transformedRow;
       }).filter((row) => row.length > 0),
     };
+
+    const arrayOfData = mappedData.body.map((row) => {
+      return row.reduce((acc: any, cell, index) => {
+        const header = mappedData.headers[index];
+        if (header !== null) {
+          acc[header] = cell;
+        }
+
+        return acc;
+      }, {});
+    });
+
+    const formattedData = arrayOfData.map((item) => ({
+      ...item,
+      amount: convertAmountToMiliunits(parseFloat(item.amount)),
+      date: format(parse(item.date, dateFormat, new Date()), outputFormat),
+    }));
+
+    onSubmit(formattedData);
   };
 
   return (
